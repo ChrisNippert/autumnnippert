@@ -2,6 +2,7 @@
 - 😄 Pronouns - They/She
 - 🔭 Currently studying at UNH
 - 🎓 Learning about AI pathfinding and search
+- 📜 Working on a parallelized A* paper
 - 🎉 I enjoy making fun tools, apps, and working with all sorts of languages!
 
 <!--
