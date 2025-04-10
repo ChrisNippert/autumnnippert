@@ -1,5 +1,5 @@
 ### Hi! I'm Autumn 👋
-- 😄 Pronouns - They/She
+- 😄 Pronouns - They/Them
 - 🔭 Currently studying at UNH
 - 🎓 Learning about AI pathfinding and search
 - 📜 Working on a parallelized A* paper
