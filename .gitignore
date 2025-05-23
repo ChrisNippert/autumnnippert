@@ -1,0 +1,3 @@
+dist/
+.venv/
+dev.sh

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><!-- TITLE --></title>
+  <link rel="icon" type="image/x-icon" href="/res/pfp.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Autumn Nippert - Computer Science Student, Developer, and Musician">
+  <meta name="theme-color" content="#1A1B1E">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body class="w3-light-gray w3-content" style="max-width:1600px">
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white-gray" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+      <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
+        <i class="fa fa-remove"></i>
+      </a>
+      <img src="/res/pfp.png" style="width:45%;" class="w3-round"><br><br>
+      <h4><b>Autumn Nippert</b></h4>
+      <p class="w3-text-gray">🎓UNH🎓 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Genderfluidity_Pride-Flag.svg/240px-Genderfluidity_Pride-Flag.svg.png" height="100%" width="10%"></p>
+    </div>
+    <div class="w3-bar-block">
+      <a href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>ABOUT</a>
+      <a href="/#portfolio" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">
+        <i class="fa fa-th-large fa-angle-left"></i>
+        <i class="fa fa-th-large fa-angle-right w3-margin-right"></i>PROGRAMMING</a>
+      <a href="/#music-portfolio" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-solid fa-music w3-margin-right"></i>MUSIC</a>
+      <a href="/blog" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-book fa-fw w3-margin-right"></i>BLOG</a>
+      <a href="/#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>
+    </div>
+    <div class="w3-panel w3-large social-icons">
+      <a href="https://www.linkedin.com/in/chris-n-4534b9242/"><i class="fa fa-linkedin w3-hover-opacity w3-xlarge"></i></a>
+      <a href="https://github.com/AutumnNippert"><i class="fa fa-github w3-hover-opacity w3-xlarge w3-padding"></i></a>
+      <a href="https://card1gan.bandcamp.com/"><i class="fa fa-bandcamp w3-hover-opacity w3-xlarge"></i></a>
+    </div>
+  </nav>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+  <!-- Main content -->
+  <div class="w3-main" style="margin-left:300px">
+    <a href="/"><img src="/res/pfp.png" style="width:65px;" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>
+    <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
+
+    <!-- CONTENT -->
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html> 

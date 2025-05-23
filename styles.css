@@ -1,0 +1,254 @@
+/* Professional tech theme */
+:root {
+  --primary-color: #2D7FF9;
+  --secondary-color: #6C63FF;
+  --accent-color: #00D4FF;
+  --bg-dark: #1A1B1E;
+  --bg-light: #2A2B2E;
+  --text-primary: #E4E6EB;
+  --text-secondary: #B0B3B8;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --hover-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  background-color: var(--bg-dark) !important;
+  color: var(--text-primary) !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  line-height: 1.6;
+}
+
+/* Sidebar styling */
+.w3-sidebar {
+  background-color: var(--bg-light) !important;
+  border-right: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+}
+
+.w3-sidebar .w3-bar-item {
+  color: var(--text-secondary) !important;
+  transition: var(--hover-transition);
+  border-left: 2px solid transparent;
+  font-weight: 500;
+}
+
+.w3-sidebar .w3-bar-item:hover {
+  background-color: rgba(45, 127, 249, 0.05) !important;
+  color: var(--primary-color) !important;
+  border-left: 2px solid var(--primary-color);
+}
+
+/* Main content area */
+.w3-main {
+  background-color: var(--bg-dark) !important;
+}
+
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.3px;
+}
+
+h1 {
+  font-size: 2.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+/* Portfolio items */
+.portfolio-item {
+  background-color: var(--bg-light) !important;
+  border: 1px solid var(--border-color) !important;
+  transition: var(--hover-transition);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+}
+
+.portfolio-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.portfolio-item .w3-container {
+  background-color: var(--bg-light) !important;
+  padding: 1.5rem !important;
+}
+
+/* Buttons */
+.w3-button {
+  background-color: var(--bg-light) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  transition: var(--hover-transition);
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 8px 16px !important;
+}
+
+.w3-button:hover {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  border-color: var(--primary-color) !important;
+}
+
+/* Blog posts */
+.blog-post {
+  background-color: var(--bg-light) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px;
+  transition: var(--hover-transition);
+  box-shadow: var(--card-shadow);
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+}
+
+.blog-post:hover {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Code blocks */
+pre, code {
+  background-color: var(--bg-dark) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.9em;
+  padding: 1rem;
+}
+
+/* Social icons */
+.social-icons a {
+  color: var(--text-secondary) !important;
+  transition: var(--hover-transition);
+  font-size: 1.2rem;
+}
+
+.social-icons a:hover {
+  color: var(--primary-color) !important;
+}
+
+/* Search input */
+#searchInput {
+  background-color: var(--bg-light) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px;
+  padding: 12px;
+  transition: var(--hover-transition);
+  font-size: 1rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+#searchInput:focus {
+  border-color: var(--primary-color) !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(45, 127, 249, 0.2);
+}
+
+/* Links */
+a {
+  color: var(--primary-color) !important;
+  text-decoration: none;
+  transition: var(--hover-transition);
+  font-weight: 500;
+}
+
+a:hover {
+  color: var(--accent-color) !important;
+}
+
+/* Contact section */
+.contact-section {
+  background-color: var(--bg-light) !important;
+  border-top: 1px solid var(--border-color);
+  padding: 3rem 0;
+}
+
+.contact-item {
+  background-color: var(--bg-dark) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px;
+  transition: var(--hover-transition);
+  padding: 2rem;
+  text-align: center;
+}
+
+.contact-item:hover {
+  border-color: var(--primary-color) !important;
+  box-shadow: var(--card-shadow);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+/* Additional professional touches */
+.w3-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.w3-padding-large {
+  padding: 2rem !important;
+}
+
+/* Typography improvements */
+p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* Section spacing */
+.w3-section {
+  margin: 3rem 0;
+}
+
+/* Card content */
+.w3-white {
+  background-color: var(--bg-light) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Custom styles for the portfolio */
+.portfolio-item {
+  margin-bottom: 20px;
+}
+
+.portfolio-item img {
+  width: 100%;
+  height: auto;
+}
+
+.portfolio-item .w3-container {
+  padding: 15px;
+}
+
+/* Social media icons */
+.social-icons {
+  margin-top: 20px;
+}
+
+.social-icons a {
+  margin-right: 10px;
+} 
