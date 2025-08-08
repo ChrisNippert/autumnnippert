@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Autumn Nippert - Computer Science Student, Developer, and Musician">
-  <meta name="theme-color" content="#1A1B1E">
+  <meta name="theme-color" content="#0A0B0E">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -31,17 +31,13 @@
       </p>
     </div>
     <div class="w3-bar-block">
-      <a href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i
+      <a href="/index.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding sidebar-active"><i
           class="fa fa-user fa-fw w3-margin-right"></i>ABOUT</a>
-      <a href="/#portfolio" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">
-        <i class="fa fa-th-large fa-angle-left"></i>
+      <a href="/programming.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-th-large fa-angle-left"></i>
         <i class="fa fa-th-large fa-angle-right w3-margin-right"></i>PROGRAMMING</a>
-      <a href="/#music-portfolio" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i
-          class="fa fa-solid fa-music w3-margin-right"></i>MUSIC</a>
-      <a href="/blog" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i
-          class="fa fa-book fa-fw w3-margin-right"></i>BLOG</a>
-      <a href="/#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i
-          class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>
+      <a href="/music.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-solid fa-music w3-margin-right"></i>MUSIC</a>
+      <a href="/blog" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-book fa-fw w3-margin-right"></i>BLOG</a>
+      <a href="/#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>
     </div>
     <div class="w3-panel w3-large social-icons">
       <a href="https://www.linkedin.com/in/chris-n-4534b9242/"><i
@@ -66,6 +62,7 @@
     <!-- CONTENT -->
     <header id="about">
       <div class="w3-container w3-padding-large">
+        <div class="math-decoration top-right">∀x ∈ ℝ</div>
         <h1><b>About Me</b></h1>
         <p class="w3-large">I'm just a student at UNH studying Computer Science. I have an interest in AI and Machine
           Learning, with programming skills in many languages including Kotlin, Python, C, Java and JS. I've made plenty
@@ -80,155 +77,19 @@
           getting better at singing and want to tell interesting and cohesive stories. <a
             href="https://card1gan.bandcamp.com/"><i class="fa fa-bandcamp"></i></a>
         </p>
+        <div class="math-decoration bottom-left">∃y ∈ ℂ</div>
         <hr>
         <div class="w3-section w3-bottombar w3-padding-large"></div>
       </div>
-
     </header>
-
-    <!-- Header -->
-    <header id="portfolio">
-      <div class="w3-container w3-padding-large">
-        <h1><b>My Programming Portfolio</b></h1>
-      </div>
-
-      <!--First Photo Grid-->
-      <div class="w3-row-padding">
-        <div class="w3-third w3-container w3-margin-bottom portfolio-item">
-          <!-- <img src="/w3images/mountains.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity"> -->
-          <a href="https://github.com/AutumnNippert/ai-learn" class="w3-button w3-white w3-large w3-">AI-Learn <i
-              class="fa fa-github"></i></a>
-          <div class="w3-container w3-white">
-            <p>A web app that uses OpenAI's GPT-3.5 API to dynamically create course material for any course
-              imaginable. </p>
-          </div>
-        </div>
-        <div class="w3-third w3-container w3-margin-bottom portfolio-item">
-          <a href="https://github.com/AutumnNippert/chatgpt_bot" class="w3-button w3-white w3-large w3-">Chattr <i
-              class="fa fa-github"></i></a>
-          <div class="w3-container w3-white">
-            <p>Chattr is a Discord bot that can participate in deep conversations, provide information on
-              various topics, summarize articles, generate images, and much more. Powered by Discord.py and
-              OpenAI's GPT-3.5 API.</p>
-          </div>
-        </div>
-        <div class="w3-third w3-container w3-margin-bottom portfolio-item">
-          <a href="https://github.com/AutumnNippert/pytorch-file-type-detector"
-            class="w3-button w3-white w3-large w3-">PyTorch File Type Classifier <i class="fa fa-github"></i></a>
-          <div class="w3-container w3-white">
-            <p>This python program is capable of predicting a filetype just given the contents of the file using
-              PyTorch.
-            </p>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- Second Photo Grid-->
-    <div class="w3-row-padding">
-      <div class="w3-third w3-container w3-margin-bottom portfolio-item">
-        <a href="https://github.com/kurolunaa/DiscordChatController" class="w3-button w3-white w3-large w3-">Discord
-          Chat Controller <i class="fa fa-github"></i></a>
-        <div class="w3-container w3-white">
-          <p>This discord.py based bot simulates controller inputs on the device that is hosting the bot. This allows
-            for people to type in a discord chat to control things like games.
-          </p>
-        </div>
-      </div>
-      <div class="w3-third w3-container w3-margin-bottom portfolio-item">
-        <a href="https://github.com/AutumnNippert/Language-Translator" class="w3-button w3-white w3-large w3-">Discord
-          Language Translator <i class="fa fa-github"></i></a>
-        <div class="w3-container w3-white">
-          <p>This discord.py based bot detects if a non-english language has been typed in a discord chat, and will use
-            GPT-3.5 to translate the text and automatically respond with the translated message.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Header -->
-    <header id="music-portfolio">
-      <div class="w3-container">
-        <h1><b>My Music Portfolio</b></h1>
-        <div class="w3-section w3-bottombar w3-padding-0"><!--
-          <span class="w3-margin-right">Filter:</span>
-          <button class="w3-button w3-black">ALL</button>
-          <button class="w3-button w3-white"><i class="fa fa-diamond w3-margin-right"></i>Design</button>
-          <button class="w3-button w3-white w3-hide-small"><i class="fa fa-photo w3-margin-right"></i>Photos</button>
-          <button class="w3-button w3-white w3-hide-small"><i class="fa fa-map-pin w3-margin-right"></i>Art</button>-->
-        </div>
-      </div>
-    </header>
-
-    <!-- First Photo Grid-->
-    <div class="w3-row-padding">
-      <div class="w3-third w3-container w3-margin-bottom portfolio-item">
-        <!-- <img src="/w3images/mountains.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity"> -->
-        <a href="https://card1gan.bandcamp.com/album/king" class="w3-button w3-white w3-large w3-"><img
-            src="https://f4.bcbits.com/img/a3328859476_16.jpg" width="100%" height="100%">
-          <div class="w3-container w3-white">
-            <p><b>King</b></p>
-          </div>
-        </a>
-      </div>
-      <div class="w3-third w3-container w3-margin-bottom portfolio-item">
-        <!-- <img src="/w3images/mountains.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity"> -->
-        <a href="https://card1gan.bandcamp.com/album/we-shall-not-fall" class="w3-button w3-white w3-large w3-"><img
-            src="https://f4.bcbits.com/img/a3857811288_16.jpg" width="100%" height="100%">
-          <div class="w3-container w3-white">
-            <p><b>We Shall Not Fall</b></p>
-          </div>
-        </a>
-      </div>
-      <div class="w3-third w3-container w3-margin-bottom portfolio-item">
-        <!-- <img src="/w3images/mountains.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity"> -->
-        <a href="https://card1gan.bandcamp.com/album/the-epics-vol-1" class="w3-button w3-white w3-large w3-"><img
-            src="https://f4.bcbits.com/img/a1408266761_16.jpg" width="100%" height="100%">
-          <div class="w3-container w3-white">
-            <p><b>The Epics - Vol. 1</b></p>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Second Photo Grid-->
-    <div class="w3-row-padding">
-      <div class="w3-third w3-container w3-margin-bottom portfolio-item">
-        <!-- <img src="/w3images/mountains.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity"> -->
-        <a href="https://card1gan.bandcamp.com/album/yet-another-day" class="w3-button w3-white w3-large w3-"><img
-            src="https://f4.bcbits.com/img/a3931296413_16.jpg" width="100%" height="100%">
-          <div class="w3-container w3-white">
-            <p><b>Yet Another Day</b></p>
-          </div>
-        </a>
-      </div>
-      <div class="w3-third w3-container w3-margin-bottom portfolio-item">
-        <!-- <img src="/w3images/mountains.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity"> -->
-        <a href="https://card1gan.bandcamp.com/album/moria-khazad-d-m" class="w3-button w3-white w3-large w3-"><img
-            src="https://f4.bcbits.com/img/a1085564689_16.jpg" width="100%" height="100%">
-          <div class="w3-container w3-white">
-            <p><b> Moria - Khazad-dum</b></p>
-          </div>
-        </a>
-      </div>
-      <div class="w3-third w3-container w3-margin-bottom portfolio-item">
-        <!-- <img src="/w3images/mountains.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity"> -->
-        <a href="https://card1gan.bandcamp.com/album/what-the-funk" class="w3-button w3-white w3-large w3-"><img
-            src="https://f4.bcbits.com/img/a1605098844_16.jpg" width="100%" height="100%">
-          <div class="w3-container w3-white">
-            <p><b>What The Funk?!</b></p>
-          </div>
-        </a>
-      </div>
-    </div>
     <div class="w3-container w3-light-grey contact-section">
-      <h4 id="contact"><b>Contact Me</b></h4>
-      <div class="w3-row-padding w3-center w3-padding-24" style="margin:0 -16px">
-        <div class="w3-third w3-dark-grey contact-item">
-          <p><i class="fa fa-envelope w3-xxlarge w3-text-light-grey"></i></p>
-          <p>contact@autumnnippert.com</p>
-        </div>
+      <div class="math-decoration top-right">∫f(x)dx</div>
+      <h4 id="contact" style="text-align:center;"><b>Contact Me</b></h4>
+      <div class="contact-card">
+        <i class="fa fa-envelope w3-xxlarge"></i>
+        <p>contact@autumnnippert.com</p>
       </div>
+      <div class="math-decoration bottom-left">lim x→∞</div>
       <hr class="w3-opacity">
     </div>
   </div>

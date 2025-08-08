@@ -15,6 +15,8 @@ if os.path.exists('res'):
     shutil.copytree('res', 'dist/res', dirs_exist_ok=True)
 shutil.copy('styles.css', 'dist/styles.css')
 shutil.copy('script.js', 'dist/script.js')
+shutil.copy('programming.html', 'dist/programming.html')
+shutil.copy('music.html', 'dist/music.html')
 
 # Read the templates
 with open('index.html', 'r') as f:
@@ -42,6 +44,8 @@ for file in os.listdir(blog_dir):
         
         # Convert markdown to HTML
         html = markdown2.markdown(content)
+        # Fix code block classes for Prism.js
+        html = re.sub(r'<code class="(\w+)">', r'<code class="language-\1">', html)
         
         # Save the blog post
         slug = file.replace('.md', '')
@@ -94,11 +98,11 @@ blog_index = blog_template.replace('<!-- CONTENT -->', f'''
             </div>
             <div id="blogList">
                 {''.join(f'''
-                    <div class="w3-container w3-margin-bottom blog-post" data-title="{post["title"].lower()}" data-excerpt="{post["excerpt"].lower()}">
-                        <h3><a href="/blog/{post["slug"]}.html">{post["title"]}</a></h3>
+                    <a href="/blog/{post["slug"]}.html" class="blog-post" data-title="{post["title"].lower()}" data-excerpt="{post["excerpt"].lower()}">
+                        <h3>{post["title"]}</h3>
                         <p class="w3-text-gray">{post["date"]}</p>
                         <p>{post["excerpt"]}</p>
-                    </div>
+                    </a>
                 ''' for post in blog_posts)}
             </div>
         </div>
