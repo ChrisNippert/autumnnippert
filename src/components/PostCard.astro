@@ -1,0 +1,10 @@
+---
+const { href, title, summary, date } = Astro.props as {
+  href: string; title: string; summary: string; date: string
+}
+---
+<a href={href} class="block rounded-2xl border border-border bg-bg-card p-5 hover:border-white/20 transition">
+  <h3 class="text-lg font-medium">{title}</h3>
+  <p class="mt-2 text-sm text-text-muted">{summary}</p>
+  <time class="mt-1 block text-xs text-text-muted">{new Date(date).toLocaleDateString()}</time>
+</a>

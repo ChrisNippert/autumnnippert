@@ -1,0 +1,16 @@
+@import "tailwindcss";
+/* load the typography plugin */
+@plugin "@tailwindcss/typography";
+
+/* optional — your custom config if you have tailwind.config.cjs */
+@config "../../tailwind.config.cjs";
+
+html { scroll-behavior: smooth; }
+
+.prose :where(code):not(:where(pre *)) {
+  @apply px-1.5 py-0.5 rounded bg-bg-soft text-text;
+}
+
+.prose pre {
+  @apply rounded-xl border border-border;
+}

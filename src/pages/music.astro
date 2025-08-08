@@ -1,0 +1,67 @@
+---
+import Base from "@/layouts/Base.astro";
+import BandcampEmbed from "@/components/BandcampEmbed.astro";
+
+/**
+ * For now we hardcode a few entries.
+ * Replace `embed` URLs with your actual Bandcamp embed srcs (Album or Track).
+ * Tip: On Bandcamp, hit “Share/Embed” → copy the `iframe` src.
+ */
+const items = [
+  {
+    title: "King",
+    summary: "Progressive rock telling a story.",
+    embed: "https://bandcamp.com/EmbeddedPlayer/album=3911878415/size=large/bgcol=ffffff/linkcol=0687f5/transparent=true/",
+    link: "https://card1gan.bandcamp.com/album/king"
+  },
+  {
+    title: "We Shall Not Fall",
+    summary: "Cinematic, experimental themes.",
+    embed: "https://bandcamp.com/EmbeddedPlayer/album=3372898011/size=large/bgcol=ffffff/linkcol=0687f5/transparent=true/",
+    link: "https://card1gan.bandcamp.com/album/we-shall-not-fall"
+  },
+  {
+    title: "The Epics – Vol. 1",
+    summary: "Bag of miscellaneous tracks.",
+    embed: "https://bandcamp.com/EmbeddedPlayer/album=1713832332/size=large/bgcol=ffffff/linkcol=0687f5/transparent=true/",
+    link: "https://card1gan.bandcamp.com/album/the-epics-vol-1"
+  },
+  {
+    title: "Yet Another Day",
+    summary: "Melodic electronic rhythms.",
+    embed: "https://bandcamp.com/EmbeddedPlayer/album=2993693957/size=large/bgcol=ffffff/linkcol=0687f5/transparent=true/",
+    link: "https://card1gan.bandcamp.com/album/yet-another-day"
+  },
+  {
+    title: "Moria – Khazad-dûm",
+    summary: "Dark, cavernous orchestral textures for a fantasy epic.",
+    embed: "https://bandcamp.com/EmbeddedPlayer/album=2634494558/size=large/bgcol=ffffff/linkcol=0687f5/transparent=true/",
+    link: "https://card1gan.bandcamp.com/album/moria-khazad-dum"
+  },
+  {
+    title: "What The Funk?!",
+    summary: "Funky synth jamming.",
+    embed: "https://bandcamp.com/EmbeddedPlayer/album=41866612/size=large/bgcol=ffffff/linkcol=0687f5/transparent=true/",
+    link: "https://card1gan.bandcamp.com/album/what-the-funk"
+  }
+];
+---
+
+<Base title="Music – Autumn" description="Selected tracks and albums with Bandcamp embeds.">
+  <header class="mb-6">
+    <h1 class="text-3xl font-semibold tracking-tight">Music</h1>
+    <p class="text-text-muted mt-1">A few releases—click “Open” for Bandcamp.</p>
+  </header>
+
+  <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {items.map(i => (
+      <li class="group">
+        <BandcampEmbed src={i.embed} title={i.title} link={i.link} />
+        <div class="mt-3">
+          <h2 class="text-lg font-medium">{i.title}</h2>
+          {i.summary && <p class="mt-1 text-sm text-text-muted">{i.summary}</p>}
+        </div>
+      </li>
+    ))}
+  </ul>
+</Base>

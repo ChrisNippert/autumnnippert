@@ -1,0 +1,29 @@
+---
+// src/layouts/Base.astro
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import '../styles/globals.css'     // <-- this is the key line
+const { title = 'Autumn Nippert', description = 'CS • AI/ML • Music' } = Astro.props
+---
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://rsms.me" />
+    <link rel="stylesheet" href="/styles/globals.css" />
+  </head>
+  <body class="bg-bg text-text antialiased">
+    <Header />
+    <main class="mx-auto max-w-5xl px-4 py-12">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      // Respect system preference on first paint
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      document.documentElement.classList.toggle('dark', prefersDark)
+    </script>
+  </body>
+</html>

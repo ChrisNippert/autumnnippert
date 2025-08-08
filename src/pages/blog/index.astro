@@ -1,0 +1,153 @@
+---
+import Base from '@/layouts/Base.astro'
+import { getCollection } from 'astro:content'
+
+const srcPosts = (await getCollection('blog'))
+  .filter(p => !p.data.draft)
+  .sort((a,b) => +new Date(b.data.date) - +new Date(a.data.date))
+
+// Keep only what we need on the client
+const posts = srcPosts.map(p => ({
+  slug: p.slug,
+  title: p.data.title,
+  summary: p.data.summary,
+  date: p.data.date,
+  tags: p.data.tags ?? []
+}))
+
+const allTags = Array.from(new Set(posts.flatMap(p => p.tags))).sort()
+---
+<Base title="Blog – Autumn">
+  <header class="mb-6">
+    <h1 class="text-3xl font-semibold tracking-tight">Blog</h1>
+    <p class="text-text-muted mt-1">Search posts by text or filter by tag.</p>
+  </header>
+
+  <!-- Controls -->
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <input
+      id="q"
+      type="search"
+      placeholder="Search title, summary, tags…"
+      class="w-full sm:max-w-md rounded-xl border border-border bg-bg-card px-4 py-2 outline-none focus:border-white/30"
+    />
+
+    <div id="tagbar" class="flex flex-wrap gap-2">
+      {allTags.length === 0 ? (
+        <span class="text-sm text-text-muted">No tags yet</span>
+      ) : (
+        allTags.map(t => (
+          <button
+            data-tag={t}
+            class="tag-btn rounded-full border border-border px-3 py-1 text-sm text-text-muted hover:border-white/30 hover:text-text transition"
+          >
+            #{t}
+          </button>
+        ))
+      )}
+    </div>
+  </div>
+
+  <!-- Results -->
+  <ul id="results" class="mt-8 grid gap-6">
+    {posts.map(p => (
+      <li>
+        <a href={`/blog/${p.slug}`} class="block rounded-2xl border border-border bg-bg-card p-5 hover:border-white/20 transition">
+          <h2 class="text-lg font-medium">{p.title}</h2>
+          <p class="mt-2 text-sm text-text-muted">{p.summary}</p>
+          <div class="mt-3 flex flex-wrap items-center gap-2">
+            <time class="text-xs text-text-muted">{new Date(p.date).toLocaleDateString()}</time>
+            {p.tags.map(t => (
+              <span class="text-xs text-text-muted/80">#{t}</span>
+            ))}
+          </div>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <!-- Data for the client -->
+  <script type="application/json" id="__posts">{JSON.stringify(posts)}</script>
+
+  <!-- Behaviour (tiny, no deps) -->
+  <script>
+    const parseQS = () => {
+      const u = new URL(window.location.href);
+      const q = u.searchParams.get('q') ?? '';
+      const tags = (u.searchParams.get('tags') ?? '')
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean);
+      return { q, tags: new Set(tags) };
+    };
+
+    const POSTS = JSON.parse(document.getElementById('__posts').textContent);
+    const resultsEl = document.getElementById('results');
+    const inputEl = document.getElementById('q');
+    const tagbar = document.getElementById('tagbar');
+    const state = parseQS();
+
+    // UI init from URL
+    inputEl.value = state.q;
+    for (const btn of tagbar.querySelectorAll('.tag-btn')) {
+      const t = btn.dataset.tag;
+      if (state.tags.has(t)) btn.classList.add('!border-white/40','!text-text');
+    }
+
+    const updateURL = () => {
+      const u = new URL(window.location.href);
+      state.q ? u.searchParams.set('q', state.q) : u.searchParams.delete('q');
+      const tagsStr = Array.from(state.tags).join(',');
+      tagsStr ? u.searchParams.set('tags', tagsStr) : u.searchParams.delete('tags');
+      history.replaceState(null, '', u);
+    };
+
+    const norm = s => s.toLowerCase();
+    const matches = (p) => {
+      const q = norm(state.q);
+      const inText = !q || [p.title, p.summary, ...(p.tags||[])].some(v => norm(String(v)).includes(q));
+      const tagsOK = state.tags.size === 0 || (p.tags || []).some(t => state.tags.has(t));
+      return inText && tagsOK;
+    };
+
+    const render = () => {
+      const items = POSTS.filter(matches);
+      if (items.length === 0) {
+        resultsEl.innerHTML = '<li class="text-text-muted">No matching posts.</li>';
+        return;
+      }
+      resultsEl.innerHTML = items.map(p => `
+        <li>
+          <a href="/blog/${p.slug}" class="block rounded-2xl border border-border bg-bg-card p-5 hover:border-white/20 transition">
+            <h2 class="text-lg font-medium">${p.title}</h2>
+            <p class="mt-2 text-sm text-text-muted">${p.summary}</p>
+            <div class="mt-3 flex flex-wrap items-center gap-2">
+              <time class="text-xs text-text-muted">${new Date(p.date).toLocaleDateString()}</time>
+              ${(p.tags||[]).map(t => `<span class="text-xs text-text-muted/80">#${t}</span>`).join('')}
+            </div>
+          </a>
+        </li>
+      `).join('');
+    };
+
+    // Events
+    inputEl.addEventListener('input', (e) => {
+      state.q = e.target.value;
+      updateURL(); render();
+    });
+
+    tagbar.addEventListener('click', (e) => {
+      const btn = e.target.closest('.tag-btn');
+      if (!btn) return;
+      const tag = btn.dataset.tag;
+      if (state.tags.has(tag)) { state.tags.delete(tag); btn.classList.remove('!border-white/40','!text-text'); }
+      else { state.tags.add(tag); btn.classList.add('!border-white/40','!text-text'); }
+      updateURL(); render();
+    });
+
+    // First paint
+    render();
+  </script>
+
+  <!-- No-JS fallback already rendered above (full list) -->
+</Base>

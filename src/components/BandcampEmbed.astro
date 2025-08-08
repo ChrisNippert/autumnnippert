@@ -1,0 +1,22 @@
+---
+const { src, title = 'Bandcamp embed', link } = Astro.props as {
+  src: string; title?: string; link?: string
+}
+---
+<div class="rounded-2xl border border-border bg-bg-card overflow-hidden">
+  <div class="[aspect-ratio:3/5]">
+    <iframe
+      title={title}
+      src={src}
+      class="h-full w-full"
+      allow="autoplay; encrypted-media"
+      loading="lazy"
+    ></iframe>
+  </div>
+  {link && (
+    <div class="flex items-center justify-between px-4 py-3 text-sm">
+      <span class="text-text-muted truncate">{title}</span>
+      <a href={link} class="rounded-lg border border-border px-3 py-1 hover:border-white/30">Open →</a>
+    </div>
+  )}
+</div>
