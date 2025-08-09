@@ -10,19 +10,36 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm install
+          cache: 'npm'
+
+      # Use a clean, lockfile-respecting install
+      - run: npm ci
+
+      # (Optional) show Astro/Tailwind versions in logs for sanity
+      - run: npx astro --version && npx tailwindcss --help >/dev/null || true
+
+      # IMPORTANT: configure Pages before uploading the artifact
+      - uses: actions/configure-pages@v5
+
       - run: npm run build
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
