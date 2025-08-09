@@ -1,51 +1,30 @@
-name: Build and Deploy
+name: Deploy to Cloudflare Pages
 
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
+  pull_request:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-
-      # Use a clean, lockfile-respecting install
+          cache: npm
       - run: npm ci
-
-      # (Optional) show Astro/Tailwind versions in logs for sanity
-      - run: npx astro --version && npx tailwindcss --help >/dev/null || true
-
-      # IMPORTANT: configure Pages before uploading the artifact
-      - uses: actions/configure-pages@v5
-
-      - run: npm run build
-
-      - uses: actions/upload-pages-artifact@v3
+      - run: npm run build    # runs "astro build"
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
         with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ${{ secrets.PROJECT_NAME }}
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
