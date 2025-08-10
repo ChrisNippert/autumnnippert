@@ -6,4 +6,32 @@ tags: [linux, windows, dual-boot]
 draft: false
 ---
 
+So as one of my first blog posts, I wanted to share my experience setting up a dual boot with Windows 11 and Arch Linux.
+In theory, this shouldn't be that hard, and because they were on separate drives my risk of data loss was low.
 
+The first thing I attempted to do was to install the Windows 11 ISO and create a bootable USB drive using `dd`.
+Not particularly to my surprise, this didn't work as Windows 11 requires some extra drivers to be installed that I did not have on the drive since I did not use the Windows Media Creation Tool.
+Unfortunately that tool is only available on Windows, so I had to use a tool called `woeusb-ng` to create the bootable USB drive.
+I debated just trying to run the Windows Media Creation Tool via Wine, but that seemed like a bad idea as it's directly accessing external hardware.
+
+Anyway, I created the bootable USB drive and booted into it, but to install it on a separate drive, I needed to make sure that it was the right drive.
+Me being inexperienced with Windows command line, I had to look up the equivalent of `lsblk` to find the drive I wanted to install Windows on.
+I ended up using `diskpart` and the `list disk` command to find the drive I wanted to install Windows on.
+
+After that, the installation went smoothly, and I was able to boot into Windows 11 with secure boot enabled.
+I consider this to be close enough of a dual boot setup, as I can boot into either Windows or Arch Linux from my BIOS, having to toggle secure boot on and off as needed.
+
+All was well and I was able to play Battlefield 6, but when time came to boot into Arch Linux, I was greeted with an abnormal and painfully long boot time.
+It would plop me into some terminal where I could type, but nothing would actually happen. It was like limbo between my bootloader and my init system.
+It took a while to actually figure out what was going on, since there were no boot logs being logged in where I would expect on my linux system.
+I ended up using `journalctl -b` to view the boot logs, saw this large time gap between when grub loaded my init system and when it actually started booting.
+
+I had to remove the `quiet` options from my grub config to see what was actually going on. Turns out my USB ports were failing to initialize properly.
+They would try to restart, and for each USB port that failed to initialize, it would take about 15 seconds. This only started happening after I installed Windows 11.
+You can actually see the logs of your usb ports initializing by running `dmesg | grep usb`.
+
+After unplugging and reconnecting my USB devices, I was able to boot into Arch Linux without any unnecessary delay.
+I also went back into windows and turned off fast startup, which I hear can cause issues with dual booting.
+
+All in all, it was a weird process with some unexpected issues, but it seems to be working well enough now, until it didn't, but that's a story for another time.
+Next up is signing my bootloader so that I can boot into Arch Linux without having to disable secure boot.
