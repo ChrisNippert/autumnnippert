@@ -1,0 +1,19 @@
+---
+title: When Windows Bitlocked My Drive and Refused to Unlock It
+date: "2025-09-22"
+summary: Windows Bitlocker refused to unlock my drive.
+tags: [windows, bitlocker]
+draft: false
+---
+
+So in early August after I successfully dual booted Windows 11 and Arch Linux, all was fine until Windows decided to be Windows.
+
+I was messing around with [WizTree](https://diskanalyzer.com/), which to my knowledge is one of the best disk usage analyzers for Windows, when all of a sudden the program stopped responding. I clicked the close button a couple of times as I normally would, but it seemed hesitant to close. I figured it was stuck processing something, so I went to delete the files I wanted to using the file explorer, but when I opened that up, it wasn't responding either and refused to close. I opened up task manager and tried to end the processes, but even then both of them remained open. This seemed like a bad sign and definitely not how Windows is supposed to behave, so in a last ditch effort, I restarted Windows Explorer from Task Manager, except it never came back. This left me with only one option: restart the computer.
+
+You would hope that on a restart it would begin functioning normally again, but it instead would indefinitely stall on the Windows loading screen. This was not good at all, and like nothing I had experienced before using Windows. I got a Windows installation media onto a USB and booted into recovery mode from that, but I was met with the largest menace of them all: Bitlocker.
+
+Did I ever remember turning Bitlocker on when I installed Windows? No. Turns out it comes enabled by default on Windows 11. I went to Microsoft's portal to find my Bitlocker recovery key, and luckily wasn't the hard part. That was when I found out that the recovery key wasn't working to unlock my drive. I tried multiple times, making sure I was entering it correctly, but it was just refusing to work. I tried booting into recovery mode again, but it still wouldn't accept the key.
+
+This was getting pretty annoying at this point, but I figured that Windows was maybe just being Windows so I opened up a command prompt from the recovery menu and tried to unlock the drive. The command to do this turns out to be `manage-bde -unlock C: -RecoveryPassword <recovery_key>`. It accepted the key and began unlocking the drive. At this point I was both excited yet confused. Why would the simple GUI for the Bitlocker recovery key fail yet the CLI worked fine? Anyway I tried to disable Bitlocker with `manage-bde -off C:`, and this began working, albeit very slowly. I went to bed and the next morning woke up to find that Bitlocker was finally disabled and I could boot into Windows again.
+
+I ran `chkdsk /f` to make sure the filesystem was okay, and it reported no issues. I booted back into linux to check that the drive was accessible and to check it's SMART status, and everything seemed fine. The drive seemed perfect from all the stats that I had gathered, so honestly I don't know what went wrong. Maybe it was a one time fluke, or maybe Windows was just being Windows. Either way, all I can tell you is that I'm glad I know Bitlocker is on by default so I can immediately turn it off anytime I install Windows in the future.
