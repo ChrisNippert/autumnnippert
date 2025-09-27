@@ -1,5 +1,5 @@
 {
-  "name": "autumnnippert",
+  "name": "chrisnippert",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,20 +10,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AutumnNippert/autumnnippert.git"
+    "url": "git+https://github.com/ChrisNippert/autumnnippert.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/AutumnNippert/autumnnippert/issues"
+    "url": "https://github.com/ChrisNippert/autumnnippert/issues"
   },
-  "homepage": "https://github.com/AutumnNippert/autumnnippert#readme",
+  "homepage": "https://github.com/ChrisNippert/autumnnippert#readme",
   "dependencies": {
     "@astrojs/mdx": "^4.3.3",
     "@astrojs/rss": "^4.0.12",
     "astro": "^5.12.9",
+    "katex": "^0.16.22",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

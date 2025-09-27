@@ -14,3 +14,22 @@ html { scroll-behavior: smooth; }
 .prose pre {
   @apply rounded-xl border border-border;
 }
+
+/* KaTeX math styling for dark mode */
+.katex { 
+  color: #E6ECF1 !important; 
+}
+
+.katex .base {
+  color: #E6ECF1 !important;
+}
+
+/* Style for display math (block equations) */
+.katex-display {
+  @apply my-6 overflow-x-auto;
+}
+
+/* Style for inline math */
+.katex {
+  font-size: 1.1em;
+}

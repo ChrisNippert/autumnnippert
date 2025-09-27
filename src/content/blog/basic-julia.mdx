@@ -1,0 +1,142 @@
+---
+title: Learning Julia
+date: "2025-09-27"
+summary: Some basic Julia lang things I've learned recently.
+tags: [julia, programming]
+draft: false
+---
+
+I've been learning Julia recently for a class I'm taking, and I wanted to share some of the things I've learned so far. This also is partially an excuse to test my code and LaTeX rendering.
+
+Before we get started, the syntax is pretty similar to Python but can be strongly typed if you want. It runs using a Just In Time (JIT) compiler, which means that the first time you run a function it will take a bit longer to compile, but subsequent runs will be much faster. When it compiles, some black magic happens and it generates optimized machine code that from my experience can be as fast as C or C++.
+
+# Julia REPL
+The way we interact with Julia is through the REPL (Read-Eval-Print Loop). You can start it by running `julia` in your terminal. If you want to stick to more of a script style, you can create a file with a `.jl` extension and run it using `julia filename.jl`.
+
+Anyway when we start Julia, we see something like this:
+```
+[1m7.641s][~]$ julia
+               _
+   _       _ _(_)_     |  Documentation: https://docs.julialang.org
+  (_)     | (_) (_)    |
+   _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
+  | | | | | | |/ _` |  |
+  | | |_| | | | (_| |  |  Version 1.11.7 (2025-09-08)
+ _/ |\__'_|_|_|\__'_|  |
+|__/                   |
+
+julia>
+```
+Once you're here, you can type Julia code and it will execute it immediately:
+
+```julia
+julia> println("Hello World!")
+Hello World!
+```
+
+# Basic Operations
+## Variables and Types
+Getting started we will first talk about variables and types. You can declare a variable and assign it a value like so:
+```julia
+x = 10          # x is an Int
+y::Float64 = 3.14        # y is a Float64
+name = "Julia"  # name is a String
+is_active = true # is_active is a Bool
+```
+
+## Arrays and Tuples
+Arrays and tuples are just as easy to create:
+
+```julia
+arr = [1, 2, 3, 4, 5]          # arr is an Array of Ints
+tup = (1, 2, 3)                 # tup is a Tuple of Ints
+arr_2::Array{Int64} = [1, 2, 3, 4, 5]
+```
+
+## Printing to Console
+If we want to print out values we can use the `print` or `println` function:
+
+```julia
+println("Hello, $name!")  # String interpolation
+println("x = $x, y = $y")
+println("x + y = ")
+print(x + y)  # Note: print does not add a newline
+```
+This will output:
+```
+Hello, Julia!
+x = 10, y = 3.14
+x + y = 13.14
+```
+
+## Operations
+Some basic arithmetic operations:
+
+```julia
+a = 10 + 5      # Addition
+b = 10 - 5      # Subtraction
+c = 10 * 5      # Multiplication
+d = 10 / 5      # Division
+e = 10 % 3      # Modulus
+f = 10 ^ 2      # Exponentiation
+# and if you really want...
+d_2 = 5\10 # yes you can do it the other way
+@assert d == d_2  # true
+```
+
+## Functions
+There are three general ways to define functions in Julia. The most common way is using the `function` keyword:
+```julia
+function greet(name::String)
+    println("Hello, $name!")
+end
+
+greet("Julia")
+```
+
+If your function is simple, you can also use the one-liner syntax to accomplish the same thing:
+```julia
+greet(name::String) = println("Hello, $name!")
+```
+
+You can also create lambda expressions using the `->` syntax:
+```julia
+greet = name -> println("Hello, $name!")
+```
+
+You can use lambdas to do things like map, filter, and reduce on collections:
+```julia
+arr = [1, 2, 3, 4, 5]
+squared = map(x -> x^2, arr)  # Squares each element in arr
+even_numbers = filter(x -> x % 2 == 0, arr)  # Filters even numbers
+sum_of_squares = reduce(+, squared)  # Sums all elements in squared
+```
+This will output:
+```
+julia> arr = [1, 2, 3, 4, 5]
+5-element Vector{Int64}:
+ 1
+ 2
+ 3
+ 4
+ 5
+
+julia> squared = map(x -> x^2, arr)  # Squares each element in arr
+5-element Vector{Int64}:
+  1
+  4
+  9
+ 16
+ 25
+
+julia> even_numbers = filter(x -> x % 2 == 0, arr)  # Filters even numbers
+2-element Vector{Int64}:
+ 2
+ 4
+
+julia> sum_of_squares = reduce(+, squared)  # Sums all elements in squared
+55
+```
+
+
+This is unfinished but good enough for now. I'll update it later

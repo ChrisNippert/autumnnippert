@@ -13,10 +13,11 @@ const { title = 'ChrisNippert', description = 'CS • Cyber • AI/ML • Music'
     <meta name="description" content={description} />
     <!-- <link rel="preconnect" href="https://rsms.me" /> -->
     <link rel="stylesheet" href="/styles/globals.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
   </head>
   <body class="bg-bg text-text antialiased">
     <Header />
-    <main class="mx-auto max-w-4xl px-4 py-12">
+    <main class="mx-auto max-w-4xl px-4 py-12 lg:px-8">
       <slot />
     </main>
     <Footer />

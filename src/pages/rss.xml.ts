@@ -6,7 +6,7 @@ export async function GET(context) {
   return rss({
     title: 'Autumn – Blog',
     description: 'Notes on CS, AI/ML, and music',
-    site: context.site ?? 'https://autumnnippert.com',
+    site: context.site ?? 'https://chrisnippert.com',
     items: posts
       .filter(p => !p.data.draft)
       .sort((a,b) => +new Date(b.data.date) - +new Date(a.data.date))

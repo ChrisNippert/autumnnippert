@@ -1,0 +1,148 @@
+---
+// TableOfContents component
+// This will be populated by client-side JavaScript
+---
+
+<div id="toc-container" class="fixed left-8 top-1/2 transform -translate-y-1/2 z-10 hidden xl:block">
+  <div class="bg-bg-card border border-border rounded-lg p-4 max-w-xs shadow-lg">
+    <div class="flex items-center justify-between mb-3">
+      <h3 class="text-sm font-semibold text-text">Contents</h3>
+      <button 
+        id="toc-toggle" 
+        class="text-text-muted hover:text-text transition-colors"
+        aria-label="Toggle table of contents"
+      >
+        <svg id="toc-chevron" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </button>
+    </div>
+    <nav id="toc-nav" class="space-y-1">
+      <!-- TOC will be generated here by JavaScript -->
+    </nav>
+  </div>
+</div>
+
+<script>
+  // Generate table of contents from headings
+  function generateTOC() {
+    const tocNav = document.getElementById('toc-nav')
+    const tocContainer = document.getElementById('toc-container')
+    const headings = document.querySelectorAll('article h1, article h2, article h3, article h4, article h5, article h6')
+    
+    if (headings.length === 0) {
+      tocContainer.style.display = 'none'
+      return
+    }
+
+    tocNav.innerHTML = ''
+    
+    headings.forEach((heading, index) => {
+      // Create an ID if the heading doesn't have one
+      if (!heading.id) {
+        heading.id = `heading-${index}`
+      }
+      
+      const level = parseInt(heading.tagName.charAt(1))
+      const text = heading.textContent
+      
+      const link = document.createElement('a')
+      link.href = `#${heading.id}`
+      link.textContent = text
+      link.className = `block text-sm text-text-muted hover:text-accent transition-colors py-1 border-l-2 border-transparent hover:border-accent ${
+        level === 1 ? 'font-semibold' : 
+        level === 2 ? 'pl-2' : 
+        level === 3 ? 'pl-4' : 
+        level === 4 ? 'pl-6' : 'pl-8'
+      }`
+      
+      // Smooth scroll behavior
+      link.addEventListener('click', (e) => {
+        e.preventDefault()
+        const target = document.getElementById(heading.id)
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          // Update URL without triggering scroll
+          history.pushState(null, null, `#${heading.id}`)
+        }
+      })
+      
+      tocNav.appendChild(link)
+    })
+  }
+
+  // Toggle TOC visibility
+  function setupTOCToggle() {
+    const toggle = document.getElementById('toc-toggle')
+    const nav = document.getElementById('toc-nav')
+    const chevron = document.getElementById('toc-chevron')
+    let isCollapsed = false
+    
+    toggle.addEventListener('click', () => {
+      isCollapsed = !isCollapsed
+      nav.style.display = isCollapsed ? 'none' : 'block'
+      chevron.style.transform = isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)'
+    })
+  }
+
+  // Highlight current section
+  function highlightCurrentSection() {
+    const headings = document.querySelectorAll('article h1, article h2, article h3, article h4, article h5, article h6')
+    const links = document.querySelectorAll('#toc-nav a')
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id
+          // Remove active class from all links
+          links.forEach(link => {
+            link.classList.remove('text-accent', 'border-accent')
+            link.classList.add('text-text-muted', 'border-transparent')
+          })
+          // Add active class to current link
+          const activeLink = document.querySelector(`#toc-nav a[href="#${id}"]`)
+          if (activeLink) {
+            activeLink.classList.remove('text-text-muted', 'border-transparent')
+            activeLink.classList.add('text-accent', 'border-accent')
+          }
+        }
+      })
+    }, {
+      rootMargin: '-20% 0% -80% 0%'
+    })
+    
+    headings.forEach(heading => observer.observe(heading))
+  }
+
+  // Initialize when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    generateTOC()
+    setupTOCToggle()
+    highlightCurrentSection()
+  })
+</script>
+
+<style>
+  #toc-container {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  
+  #toc-nav {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(163, 191, 250, 0.3) transparent;
+  }
+  
+  #toc-nav::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  #toc-nav::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  #toc-nav::-webkit-scrollbar-thumb {
+    background-color: rgba(163, 191, 250, 0.3);
+    border-radius: 2px;
+  }
+</style>

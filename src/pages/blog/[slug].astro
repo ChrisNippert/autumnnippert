@@ -1,6 +1,7 @@
 ---
 import Base from '@/layouts/Base.astro'
 import Prose from '@/components/Prose.astro'
+import TableOfContents from '@/components/TableOfContents.astro'
 import { getCollection } from 'astro:content'
 
 export async function getStaticPaths() {
@@ -11,6 +12,7 @@ const { post } = Astro.props
 const { Content } = await post.render()
 ---
 <Base title={`${post.data.title} – Autumn`}>
+  <TableOfContents />
   <article class="mt-4">
     <header class="mb-6">
       <h1 class="text-3xl font-semibold tracking-tight">{post.data.title}</h1>
