@@ -5,19 +5,73 @@
 /* optional — your custom config if you have tailwind.config.cjs */
 @config "../../tailwind.config.cjs";
 
-html { scroll-behavior: smooth; }
+html { 
+  scroll-behavior: smooth;
+  /* Prevent horizontal scrolling on mobile */
+  overflow-x: hidden;
+}
+
+body {
+  /* Better text rendering on mobile */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 .prose :where(code):not(:where(pre *)) {
-  @apply px-1.5 py-0.5 rounded bg-bg-soft text-text;
+  @apply px-1.5 py-0.5 rounded bg-bg-soft text-text text-sm;
+  /* Prevent code from breaking layout on mobile */
+  word-break: break-word;
 }
 
 .prose pre {
   @apply rounded-xl border border-border;
+  /* Make code blocks scrollable on mobile */
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Mobile-specific prose adjustments */
+@media (max-width: 640px) {
+  .prose {
+    /* Tighter line height on mobile */
+    line-height: 1.6;
+  }
+  
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    /* Better heading spacing on mobile */
+    margin-top: 1.5em;
+    margin-bottom: 0.75em;
+    line-height: 1.3;
+  }
+  
+  .prose p {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  
+  .prose blockquote {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  
+  .prose ul,
+  .prose ol {
+    padding-left: 1.5rem;
+  }
 }
 
 /* KaTeX math styling for dark mode */
 .katex { 
-  color: #E6ECF1 !important; 
+  color: #E6ECF1 !important;
+  /* Make math responsive */
+  font-size: 1em !important;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .katex .base {
@@ -26,10 +80,42 @@ html { scroll-behavior: smooth; }
 
 /* Style for display math (block equations) */
 .katex-display {
-  @apply my-6 overflow-x-auto;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  text-align: center;
+}
+
+/* Mobile math adjustments */
+@media (max-width: 640px) {
+  .katex {
+    font-size: 0.9em !important;
+  }
+  
+  .katex-display {
+    margin: 1rem 0;
+    padding: 0 0.5rem;
+  }
 }
 
 /* Style for inline math */
 .katex {
   font-size: 1.1em;
+}
+
+/* Touch targets for mobile */
+@media (max-width: 768px) {
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Exception for inline links in text */
+  .prose a {
+    min-height: auto;
+    min-width: auto;
+    display: inline;
+  }
 }

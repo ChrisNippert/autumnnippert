@@ -12,17 +12,78 @@ const links = [
     class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-bg/60 border-b border-border"
 >
     <nav class="mx-auto max-w-4xl px-4 h-14 flex items-center justify-between">
-        <a href="/" class="text-2xl font-bold tracking-tight">ChrisNippert</a>
-        <ul class="flex gap-6 text-sm text-text-muted">
+        <a href="/" class="text-xl sm:text-2xl font-bold tracking-tight">ChrisNippert</a>
+        
+        <!-- Desktop Navigation -->
+        <ul class="hidden md:flex gap-6 text-sm text-text-muted">
             {
                 links.map((l) => (
                     <li>
-                        <a class="hover:text-text" href={l.href}>
+                        <a class="hover:text-text transition-colors duration-200" href={l.href}>
                             {l.label}
                         </a>
                     </li>
                 ))
             }
         </ul>
+
+        <!-- Mobile Menu Button -->
+        <button 
+            id="mobile-menu-button" 
+            class="md:hidden p-2 text-text-muted hover:text-text transition-colors"
+            aria-label="Toggle navigation menu"
+        >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
     </nav>
+
+    <!-- Mobile Navigation Menu -->
+    <div 
+        id="mobile-menu" 
+        class="hidden md:hidden bg-bg-card border-b border-border backdrop-blur supports-[backdrop-filter]:bg-bg-card/95"
+    >
+        <ul class="mx-auto max-w-4xl px-4 py-4 space-y-3">
+            {
+                links.map((l) => (
+                    <li>
+                        <a 
+                            class="block text-text-muted hover:text-text transition-colors duration-200 py-2" 
+                            href={l.href}
+                        >
+                            {l.label}
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
 </header>
+
+<script>
+    // Mobile menu toggle
+    document.addEventListener('DOMContentLoaded', () => {
+        const menuButton = document.getElementById('mobile-menu-button')
+        const mobileMenu = document.getElementById('mobile-menu')
+        
+        menuButton?.addEventListener('click', () => {
+            mobileMenu?.classList.toggle('hidden')
+        })
+        
+        // Close menu when clicking on a link
+        const mobileLinks = mobileMenu?.querySelectorAll('a')
+        mobileLinks?.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu?.classList.add('hidden')
+            })
+        })
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuButton?.contains(e.target as Node) && !mobileMenu?.contains(e.target as Node)) {
+                mobileMenu?.classList.add('hidden')
+            }
+        })
+    })
+</script>

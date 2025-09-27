@@ -6,7 +6,9 @@ tags: [julia, programming]
 draft: false
 ---
 
-I've been learning Julia recently for a class I'm taking, and I wanted to share some of the things I've learned so far. This also is partially an excuse to test my code and LaTeX rendering.
+I've been learning Julia recently for a class I'm taking, and I wanted to share kind of the order I learned things as well as some code snippets if you are getting into it.
+
+https://julialang.org/
 
 Before we get started, the syntax is pretty similar to Python but can be strongly typed if you want. It runs using a Just In Time (JIT) compiler, which means that the first time you run a function it will take a bit longer to compile, but subsequent runs will be much faster. When it compiles, some black magic happens and it generates optimized machine code that from my experience can be as fast as C or C++.
 
@@ -44,20 +46,53 @@ name = "Julia"  # name is a String
 is_active = true # is_active is a Bool
 ```
 
+You can also make combinations of types using `Union`:
+```julia
+z::Union{Int, Float64} = 5  # z can be either an Int or a Float64
+```
+
+In Julia, there is no `null` like there is in some other languages. Instead, Julia uses `nothing` to represent the absence of a value:
+```julia
+a = nothing
+```
+
+When checking equivalency with `nothing`, you should use the `===` operator instead of `==` since `nothing` is a singleton:
+
+If you want to declare a variable with a type but know that it will sometimes be `nothing`, you can use `Union` with `Nothing`:
+```julia
+b::Union{Int, Nothing} = nothing
+b = 42
+```
+
+Another note is that people that write Julia tend to be into math, so you will see a lot of mathematical notation in the syntax. For example, you can use `π` instead of `pi`:
+```julia
+radius = 5.0
+circumference = 2 * π * radius  # Using π instead of pi
+```
+
+Or even setting variable names as Greek letters:
+```julia
+α = 10
+β = 20
+γ = α + β  # γ is 30
+```
+
 ## Arrays and Tuples
 Arrays and tuples are just as easy to create:
 
 ```julia
-arr = [1, 2, 3, 4, 5]          # arr is an Array of Ints
-tup = (1, 2, 3)                 # tup is a Tuple of Ints
+arr = [1, 2, 3, 4, 5]
+tup = (1, 2, 3)
 arr_2::Array{Int64} = [1, 2, 3, 4, 5]
 ```
+
+Do keep in mind however that **arrays start at index 1** unlike most other programming languages where they start at index 0.
 
 ## Printing to Console
 If we want to print out values we can use the `print` or `println` function:
 
 ```julia
-println("Hello, $name!")  # String interpolation
+println("Hello, $(name)!")  # String interpolation
 println("x = $x, y = $y")
 println("x + y = ")
 print(x + y)  # Note: print does not add a newline
@@ -84,24 +119,36 @@ d_2 = 5\10 # yes you can do it the other way
 @assert d == d_2  # true
 ```
 
-## Functions
+# Functions and Structs
+## Immutable vs Mutable
+Firstly, functions in julia come in two main flavors: immutable and mutable. Immutable functions cannot change the state of their inputs, while mutable functions can. Julia denotes this with the `!` symbol at the end of the function name. For example, `sort!` is a mutable function that sorts an array in place, while `sort` is an immutable function that returns a new sorted array. Because of this, we will see later with string interpolation that we cannot use the $var syntax with a '!' at the end since var! is a valid variable name.
+
+```julia
+arr = [3, 1, 2]
+sorted_arr = sort(arr)  # Immutable, returns a new sorted array
+println(sorted_arr)  # Output: [1, 2, 3]
+sort!(arr)  # Mutable, sorts the array in place
+println(arr)  # Output: [1, 2, 3]
+```
+
+## Defining Functions
 There are three general ways to define functions in Julia. The most common way is using the `function` keyword:
 ```julia
 function greet(name::String)
-    println("Hello, $name!")
+    println("Hello, $(name)!")
 end
 
-greet("Julia")
+greet("Julia") # Outputs: Hello, Julia!
 ```
 
 If your function is simple, you can also use the one-liner syntax to accomplish the same thing:
 ```julia
-greet(name::String) = println("Hello, $name!")
+greet(name::String) = println("Hello, $(name)!")
 ```
 
 You can also create lambda expressions using the `->` syntax:
 ```julia
-greet = name -> println("Hello, $name!")
+greet = name -> println("Hello, $(name)!")
 ```
 
 You can use lambdas to do things like map, filter, and reduce on collections:
@@ -138,5 +185,174 @@ julia> sum_of_squares = reduce(+, squared)  # Sums all elements in squared
 55
 ```
 
+## Defining Structs
+Structs in Julia are similar to classes in other languages. They are used to create custom data types. By default, structs are immutable, but you can make them mutable by using the `mutable struct` keyword.
+```julia
+struct Point
+    x::Float64
+    y::Float64
+end
+p1 = Point(1.0, 2.0)
+println("Point p1: ($(p1.x), $(p1.y))") # Output: Point p1: (1.0, 2.0)
 
-This is unfinished but good enough for now. I'll update it later
+mutable struct MutablePoint
+    x::Float64
+    y::Float64
+end
+p2 = MutablePoint(3.0, 4.0)
+println("Point p2 before: ($(p2.x), $(p2.y))") # Output: Point p2 before: (3.0, 4.0)
+p2.x = 5.0  # Modify the x coordinate
+println("Point p2 after: ($(p2.x), $(p2.y))") # Output: Point p2 after: (5.0, 4.0)
+```
+
+# Control Flow
+## Conditional Statements
+Julia uses `if`, `elseif`, and `else` for conditional statements:
+```julia
+x = 10
+if x < 5
+    println("x is less than 5")
+elseif x == 10
+    println("x is equal to 10")
+else
+    println("x is greater than 5 and not equal to 10")
+end
+# will output "x is equal to 10"
+```
+
+### Ternary Operator
+Julia also supports a ternary operator for simple conditional assignments:
+```julia
+result = x < 5 ? "less than 5" : "5 or more"
+println(result) # 5 or more
+```
+
+If you are familiar with other languages, this is a little different where the condition comes first, followed by the true case and then the false case.
+
+## Loops
+Julia supports `for` and `while` loops:
+```julia
+# For loop
+for i in 1:5 # 1 to 5 inclusive
+    println("Iteration $i")
+end
+# While loop
+count = 1
+while count <= 5
+    println("Count is $count")
+    count += 1 # note that count++ is not valid in Julia
+end
+```
+
+Julia also supports for-each loops in a similar way to python:
+```julia
+arr = [10, 20, 30, 40, 50]
+for value in arr
+    println("Value: $value") # will print the values 10, 20, 30, 40, 50
+end
+```
+
+If we also want the index of the value, we can use the `enumerate` function:
+```julia
+arr = [10, 20, 30, 40, 50]
+for (index, value) in enumerate(arr)
+    println("Index: $index, Value: $value") # will print the index and value pairs
+end
+```
+
+## Comprehensions
+Julia supports array comprehensions similar to that of python.
+
+Generally the syntax is `[expression for item in collection <if condition>]` where the `if condition` is optional.
+
+Here we can create an array of squares of even numbers from 1 to 10:
+```julia
+squares = [x^2 for x in 1:10 if x % 2 == 0]  # Squares of even numbers from 1 to 10
+println(squares)
+```
+This is a one liner that is equivalent to:
+```julia
+squares = []
+for x in 1:10
+    if x % 2 == 0
+        push!(squares, x^2)
+    end
+end
+println(squares)
+```
+
+# Implementing a Stack
+This is a simple implementation of a stack data structure using an immutable struct.
+
+```julia
+struct Stack{T}
+    value::T
+    next::Union{Stack{T}, Nothing}
+end
+
+function push(stack::Stack{T}, value::T) where T
+    return Stack{T}(value, stack)
+end
+
+function pop(stack::Stack{T}) where T
+    return stack.value, stack.next
+end
+
+function isEmpty(stack::Stack{T}) where T
+    return stack === nothing
+end
+
+function peek(stack::Stack{T}) where T
+    return stack.value
+end
+```
+
+# Package Management
+Julia has a built-in package manager that you can access by typing `]` in the REPL. This will change the prompt to `pkg>`. Alternatively, you can use the `Pkg` module in your scripts.
+
+To add a package, you can use the `add` command:
+```julia
+pkg> add ExamplePackage
+```
+
+Or if you are not using the package manager part of the REPL, you can do it like this:
+```julia
+using Pkg
+Pkg.add("ExamplePackage")
+```
+
+To use a package in your code, you can use the `using` or `import` keywords:
+```julia
+using ExamplePackage  # Loads the package and brings its exported names into scope
+import ExamplePackage  # Loads the package but does not bring its names into scope
+```
+
+There are a lot of packages, ranging from Data Science (DataFrames.jl, CSV.jl) to Web Development (HTTP.jl, Genie.jl) to Machine Learning (Flux.jl, MLJ.jl).
+
+# Macros
+Macros in Julia are a way to generate code programmatically. They are defined using the `@` symbol. A common example is the `@time` macro, which measures the execution time of an expression:
+```julia
+@time sleep(1)  # Sleeps for 1 second and prints the time taken
+```
+This will output something like:
+```
+  1.002045 seconds (4 allocations: 112 bytes)
+```
+
+You can also define your own macros using the `macro` keyword:
+```julia
+macro sayhello(name)
+    return :(println("Hello, $(name)!"))
+end
+@sayhello("Julia")  # Expands to println("Hello, Julia!")
+```
+
+This will output:
+```
+Hello, Julia!
+```
+
+# Conclusion
+This is just a basic overview of Julia. There is a lot more to explore, including advanced topics like multiple dispatch, metaprogramming, and performance optimization. I hope this helps you get started with Julia!
+
+\- Chris
