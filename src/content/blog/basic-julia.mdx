@@ -10,7 +10,7 @@ I've been learning Julia recently for a class I'm taking, and I wanted to share 
 
 https://julialang.org/
 
-Before we get started, the syntax is pretty similar to Python but can be strongly typed if you want. It runs using a Just In Time (JIT) compiler, which means that the first time you run a function it will take a bit longer to compile, but subsequent runs will be much faster. When it compiles, some black magic happens and it generates optimized machine code that from my experience can be as fast as C or C++.
+Before we get started, the syntax is pretty similar to Python (like how it doesn't use ;), but can be strongly typed if you want. It runs using a Just In Time (JIT) compiler, which means that the first time you run a function it will take a bit longer to compile, but subsequent runs will be much faster. When it compiles, some black magic happens and it generates optimized machine code that from my experience can be as fast as C or C++.
 
 # Julia REPL
 The way we interact with Julia is through the REPL (Read-Eval-Print Loop). You can start it by running `julia` in your terminal. If you want to stick to more of a script style, you can create a file with a `.jl` extension and run it using `julia filename.jl`.
@@ -70,14 +70,21 @@ radius = 5.0
 circumference = 2 * π * radius  # Using π instead of pi
 ```
 
-Or even setting variable names as Greek letters:
+Or even set variable and function names and as Greek letters:
 ```julia
 α = 10
 β = 20
-γ = α + β  # γ is 30
+γ = α + β
+
+μ(array) = sum(array) / length(array)  # Mean function
+σ(array) = sqrt(sum((x - μ(array))^2 for x in array) / length(array))  # Standard deviation function
+
+
+arr = [1, 2, 3, 4, 5]
+σ(arr)  # Call the function
 ```
 
-## Arrays and Tuples
+## Arrays, Tuples, and Matrices
 Arrays and tuples are just as easy to create:
 
 ```julia
@@ -87,6 +94,47 @@ arr_2::Array{Int64} = [1, 2, 3, 4, 5]
 ```
 
 Do keep in mind however that **arrays start at index 1** unlike most other programming languages where they start at index 0.
+
+```julia
+arr[1] # This would return 1
+```
+
+Julia also natively has support for matrices:
+```julia
+julia> mat = [1 2 3; 4 5 6; 7 8 9]  # 3x3 Matrix
+3×3 Matrix{Int64}:
+ 1  2  3
+ 4  5  6
+ 7  8  9
+```
+
+Operations like matrix multiplication and transposition are also built in:
+```julia
+julia> mat'  # Transpose of the matrix
+3×3 adjoint(::Matrix{Int64}) with eltype Int64:
+ 1  4  7
+ 2  5  8
+ 3  6  9
+
+julia> mat * mat'  # Matrix multiplication
+3×3 Matrix{Int64}:
+ 14   32   50
+ 32   77  122
+ 50  122  194
+
+julia> vec = [1,2,3]
+3-element Vector{Int64}:
+ 1
+ 2
+ 3
+
+julia> mat * vec
+3-element Vector{Int64}:
+ 14
+ 32
+ 50
+```
+There is a lot more you can do with arrays and matrices, but this should be a good starting point.
 
 ## Printing to Console
 If we want to print out values we can use the `print` or `println` function:
@@ -121,7 +169,7 @@ d_2 = 5\10 # yes you can do it the other way
 
 # Functions and Structs
 ## Immutable vs Mutable
-Firstly, functions in julia come in two main flavors: immutable and mutable. Immutable functions cannot change the state of their inputs, while mutable functions can. Julia denotes this with the `!` symbol at the end of the function name. For example, `sort!` is a mutable function that sorts an array in place, while `sort` is an immutable function that returns a new sorted array. Because of this, we will see later with string interpolation that we cannot use the $var syntax with a '!' at the end since var! is a valid variable name.
+Functions in julia are often written in two styles: those that mutate their parameters, and those that don't. Julia conventionally denotes functions that mutate their parameters with the `!` symbol at the end of the function name. For example, `sort!` sorts an array in place, mutating the original array, while `sort` returns a new sorted array. Because of this naming convention, we see that string interpolation doesn't let you interpolate the value `var` like `"$var!"` directly, you'd need to wrap it in parentheses, like `"$(var)!"`.
 
 ```julia
 arr = [3, 1, 2]
@@ -185,6 +233,22 @@ julia> sum_of_squares = reduce(+, squared)  # Sums all elements in squared
 55
 ```
 
+## Using the Pipe Operator
+Julia has a pipe operator `|>` that allows you to chain function calls in a readable way. The value on the left side of the operator is passed as the first argument to the function on the right side.
+
+For example, with our standard deviation function from earlier, we can use the pipe operator to pass an array through multiple functions:
+```julia
+arr = [1, 2, 3, 4, 5]
+mean = arr |> μ  # Calculate mean
+std_dev = arr |> σ  # Calculate standard deviation
+
+# Equivalently, we could do:
+mean = μ(arr)
+std_dev = σ(arr)
+```
+
+This functional style can sometimes be more readable, especially when chaining multiple operations together in an intuitive way.
+
 ## Defining Structs
 Structs in Julia are similar to classes in other languages. They are used to create custom data types. By default, structs are immutable, but you can make them mutable by using the `mutable struct` keyword.
 ```julia
@@ -206,6 +270,8 @@ println("Point p2 after: ($(p2.x), $(p2.y))") # Output: Point p2 after: (5.0, 4.
 ```
 
 # Control Flow
+First off, Julia uses indentation for readability but does not enforce it like Python. Instead, it uses `end` to denote the end of blocks.
+
 ## Conditional Statements
 Julia uses `if`, `elseif`, and `else` for conditional statements:
 ```julia
@@ -281,6 +347,67 @@ end
 println(squares)
 ```
 
+# Multiple Dispatch
+One of Julia's most powerful features is **multiple dispatch**. This means a single function name can have many methods, and Julia will pick the most specific one that matches the runtime types of *all* arguments.  
+
+This looks a little like function overloading in languages such as Java, but it goes further: instead of only considering the first argument (the object the method is called on), Julia considers every argument in the call.  
+
+```julia
+struct Rect
+    width::Float64
+    height::Float64
+end
+
+struct Circle
+    radius::Float64
+end
+
+area(rect::Rect) = rect.width * rect.height
+area(circle::Circle) = π * circle.radius^2
+```
+Now the same function name, area, works for both rectangles and circles:
+```julia
+julia> area(Rect(3.0, 4.0))
+12.0
+
+julia> area(Circle(2.0))
+12.566370614359172
+```
+
+Because dispatch looks at *all* arguments, you can also define clean, symmetric operations:
+```julia
+*(m::Matrix, v::Vector) = "Matrix–Vector multiplication"
+*(v::Vector, m::Matrix) = "Vector–Matrix multiplication"
+```
+Multiple dispatch is one of the reasons Julia code feels both concise and extensible: new types can plug into existing functions naturally without modifying old code.
+
+# Broadcasting
+Julia has a powerful feature called broadcasting, which allows you to apply functions element-wise to arrays and other collections. You can use the `.` operator to broadcast a function over an array.
+For example, if you want to add 1 to each element of an array, you can do:
+```julia
+arr = [1, 2, 3, 4, 5]
+arr_plus_one = arr .+ 1  # Note the . before the +
+println(arr_plus_one)  # Output: [2, 3, 4, 5, 6]
+```
+
+You can also broadcast custom functions:
+```julia
+square(x) = x^2
+squared_arr = square.(arr)  # Note the . before the (
+println(squared_arr)  # Output: [1, 4, 9, 16, 25]
+```
+
+If there are multiple broadcasts within an expression, you can use the `@.` macro to broadcast all functions in the expression:
+```julia
+arr = [1, 2, 3, 4, 5]
+result = @. (arr + 1) * 2  # Adds 1 to each element and then multiplies by 2
+println(result)  # Output: [4, 6, 8, 10, 12]
+
+# This is equivalent to:
+result = (arr .+ 1) .* 2
+println(result)  # Output: [4, 6, 8, 10, 12]
+```
+
 # Implementing a Stack
 This is a simple implementation of a stack data structure using an immutable struct.
 
@@ -328,6 +455,14 @@ import ExamplePackage  # Loads the package but does not bring its names into sco
 ```
 
 There are a lot of packages, ranging from Data Science (DataFrames.jl, CSV.jl) to Web Development (HTTP.jl, Genie.jl) to Machine Learning (Flux.jl, MLJ.jl).
+
+## BenchmarkTools
+One of the most useful packages for performance testing is `BenchmarkTools.jl`. You can install it using the package manager, adding `BenchmarkTools`, and then use it to benchmark your functions:
+```julia
+using BenchmarkTools
+@btime your_function(args...)  # Replace with your function and arguments
+@benchmark your_function(args...)  # For more detailed output
+```
 
 # Macros
 Macros in Julia are a way to generate code programmatically. They are defined using the `@` symbol. A common example is the `@time` macro, which measures the execution time of an expression:
